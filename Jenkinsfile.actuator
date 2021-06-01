@@ -5,8 +5,9 @@ pipeline {
         stage('Actuate Deployment') {
             steps {
                 sh '''
-                   for resource in `ls resources`;do 
-                      NAME=$(basename -s .yaml $resource)
+                   for instance in `ls instances`;do
+                      # Update its config
+                      NAME=$(basename -s .yaml $instance)
                       gcloud compute instances update-from-file $NAME --source resources/$NAME.yaml
                    done
                 '''
