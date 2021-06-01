@@ -12,9 +12,16 @@ pipeline {
                       gcloud compute instances export $NAME > $NAME.yaml
                    done
 
-                   # Exit 1 if there is a difference
+                   # Exit 1 if there is a difference in the config
                    git diff --exit-code
                 '''
+            }
+        }
+        post {
+            failure {
+                emailext to: "viglesias@google.com",
+                    subject: "[ERROR] Drift Detected",
+                    body: "Click here for more info: ${env.BUILD_URL}",
             }
         }
     }
