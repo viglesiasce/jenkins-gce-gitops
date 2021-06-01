@@ -7,6 +7,7 @@ pipeline {
                 sh '''
                    for resource in `ls resources`;do 
                       NAME=$(basename -s .yaml $resource)
+                      gcloud config set project vic-e2e-cicd
                       gcloud compute instances update-from-file $NAME --source resources/$NAME.yaml
                    done
                 '''
