@@ -20,7 +20,7 @@ pipeline {
     }
     post {
         failure {
-            emailext to: "viglesias@google.com",
+            mail to: "viglesias@google.com",
                 subject: "[ERROR] Drift Detected",
                 body: "Click here for more info: ${env.BUILD_URL}"
         }
