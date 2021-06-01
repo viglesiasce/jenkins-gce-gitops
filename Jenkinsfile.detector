@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Detect Drift') {
+            steps {
+                sh '''
+                   cd instances
+                   for instance in `ls`;do
+                      NAME=$(basename -s .yaml $instance)'
+                      # Export current config
+                      gcloud compute instances export $NAME > $NAME.yaml
+                   done
+
+                   # Exit 1 if there is a difference
+                   git diff --exit-code
+                '''
+            }
+        }
+    }
+}
